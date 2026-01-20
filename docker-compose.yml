@@ -1,0 +1,20 @@
+services:
+  comfyui:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8188:8188"
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics
+      - HF_HOME=/app/.cache/huggingface
+      - TORCH_HOME=/app/.cache/torch
+      - HF_TOKEN=${HF_TOKEN}
+      - HUGGINGFACE_HUB_TOKEN=${HUGGINGFACE_HUB_TOKEN}
+    volumes:
+      - /data/comfyui/models:/app/models
+      - /data/comfyui/custom_nodes:/app/custom_nodes
+      - /data/comfyui/output:/app/output
+      - /data/comfyui/input:/app/input
+      - /data/comfyui/cache:/app/.cache
+    gpus: all
